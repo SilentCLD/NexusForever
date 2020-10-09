@@ -204,6 +204,8 @@ namespace NexusForever.Shared.Network.Message
         ClientPathUnlock                = 0x06BD,
         ServerPathUnlockResult          = 0x06BE,
         ServerPathCurrentEpisode        = 0x06BF,
+        ClientPlayerReport              = 0x06C5,
+        ClientSupportTicket             = 0x06D1,
         Server068B                      = 0x068B, // pet customization something
         ServerUnlockPetFlair            = 0x068D,
         ServerChangePetStance           = 0x068F,
@@ -252,6 +254,7 @@ namespace NexusForever.Shared.Network.Message
         ClientStorefrontPurchaseCharacter = 0x082A,
         ClientStorefrontRequestCatalog  = 0x082D,
         ClientSummonVanityPet           = 0x082F,
+        ClientBugReport                 = 0x0830,
         ServerTimeOfDay                 = 0x0845,
         Server0854                      = 0x0854, // crafting schematic
         Server0856                      = 0x0856, // tradeskills
@@ -285,6 +288,7 @@ namespace NexusForever.Shared.Network.Message
         ServerAccountCurrencyGrant      = 0x0967,
         ServerAccountEntitlements       = 0x0968,
         ServerAccountItems              = 0x096D,
+        ServerSupportTicketResult       = 0x0972,
         ServerAccountEntitlement        = 0x0973,
         ServerAccountItemCooldownSet    = 0x0974,
         ServerAccountItemAdd            = 0x0975,

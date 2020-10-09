@@ -30,9 +30,27 @@ namespace NexusForever.WorldServer.Game
         /// </summary>
         public ulong NextMailId => nextMailId++;
 
+        /// <summary>
+        /// Id to be assigned to the next created support ticket
+        /// </summary>
+        public ulong NextSupportTicketId => nextSupportTicketId++;
+        
+        /// <summary>
+        /// Id to be assigned to the next created bug report
+        /// </summary>
+        public ulong NextBugReportId => nextBugReportId++;
+        
+        /// <summary>
+        /// Id to be assigned to the next created player report
+        /// </summary>
+        public ulong NextPlayerReportId => nextPlayerReportId++;
+
         private ulong nextCharacterId;
         private ulong nextItemId;
         private ulong nextMailId;
+        private ulong nextSupportTicketId;
+        private ulong nextBugReportId;
+        private ulong nextPlayerReportId;
 
         private ImmutableDictionary<uint, ImmutableList<CharacterCustomizationEntry>> characterCustomisations;
 
@@ -48,9 +66,12 @@ namespace NexusForever.WorldServer.Game
 
         public void Initialise()
         {
-            nextCharacterId = DatabaseManager.Instance.CharacterDatabase.GetNextCharacterId() + 1ul;
-            nextItemId      = DatabaseManager.Instance.CharacterDatabase.GetNextItemId() + 1ul;
-            nextMailId      = DatabaseManager.Instance.CharacterDatabase.GetNextMailId() + 1ul;
+            nextCharacterId     = DatabaseManager.Instance.CharacterDatabase.GetNextCharacterId() + 1ul;
+            nextItemId          = DatabaseManager.Instance.CharacterDatabase.GetNextItemId() + 1ul;
+            nextMailId          = DatabaseManager.Instance.CharacterDatabase.GetNextMailId() + 1ul;
+            nextSupportTicketId = DatabaseManager.Instance.CharacterDatabase.GetNextSupportTicketId() + 1ul;
+            nextBugReportId     = DatabaseManager.Instance.CharacterDatabase.GetNextBugReportId() + 1ul;
+            nextPlayerReportId  = DatabaseManager.Instance.CharacterDatabase.GetNextPlayerReportId() + 1ul;
 
             CacheCharacterCustomisations();
             CacheInventoryEquipSlots();

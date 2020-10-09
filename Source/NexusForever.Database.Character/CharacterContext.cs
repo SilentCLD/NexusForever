@@ -36,6 +36,9 @@ namespace NexusForever.Database.Character
         public DbSet<ResidenceModel> Residence { get; set; }
         public DbSet<ResidenceDecor> ResidenceDecor { get; set; }
         public DbSet<ResidencePlotModel> ResidencePlot { get; set; }
+        public DbSet<BugReportModel> BugReport { get; set; }
+        public DbSet<SupportTicketModel> SupportTicket { get; set; }
+        public DbSet<PlayerReportModel> PlayerReport { get; set; }
 
         private readonly IDatabaseConfig config;
 
@@ -1410,6 +1413,230 @@ namespace NexusForever.Database.Character
                     .WithMany(p => p.Plot)
                     .HasForeignKey(d => d.Id)
                     .HasConstraintName("FK__residence_plot_id__residence_id");
+            });
+
+            modelBuilder.Entity<BugReportModel>(entity =>
+            {
+                entity.ToTable("bug_report");
+
+                entity.HasKey(e => e.Id)
+                    .HasName("PRIMARY");
+
+                entity.HasIndex(i => i.PlayerId)
+                    .HasName("FK__bug_report_playerId__character_id");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("bigint(20) unsigned")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.PlayerId)
+                    .HasColumnName("playerId")
+                    .HasColumnType("bigint(20) unsigned")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.Category)
+                    .HasColumnName("category")
+                    .HasColumnType("tinyint(2) unsigned")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.EntityId)
+                    .HasColumnName("npcId")
+                    .HasColumnType("bigint(20) unsigned")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.QuestId)
+                    .HasColumnName("questId")
+                    .HasColumnType("smallint(5) unsigned")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.Description)
+                    .HasColumnName("description")
+                    .HasColumnType("varchar(500)")
+                    .HasDefaultValue("");
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasColumnType("tinyint(1) unsigned")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.Comment)
+                    .HasColumnName("comment")
+                    .HasColumnType("text")
+                    .HasDefaultValue("");
+
+                entity.Property(e => e.CreateTime)
+                    .HasColumnName("createTime")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("current_timestamp()");
+
+                entity.Property(e => e.LastModifiedTime)
+                    .HasColumnName("lastModifiedTime")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("current_timestamp()")
+                    .ValueGeneratedOnAddOrUpdate();
+
+                entity.HasOne(b => b.Player)
+                    .WithMany(p => p.BugReport)
+                    .HasForeignKey(b => b.PlayerId)
+                    .HasConstraintName("FK__bug_report_playerId__character_id");
+            });
+
+            modelBuilder.Entity<SupportTicketModel>(entity =>
+            {
+                entity.ToTable("support_ticket");
+
+                entity.HasKey(e => e.Id)
+                    .HasName("PRIMARY");
+
+                entity.HasIndex(e => e.PlayerId)
+                    .HasName("FK__support_ticket_playerId__character_id");
+
+                entity.HasIndex(e => e.AssignedToId)
+                    .HasName("IX__support_ticket_assignedToId");
+
+                entity.HasIndex(e => e.ClosedById)
+                    .HasName("IX__support_ticket_closedById");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("bigint(20) unsigned")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.PlayerId)
+                    .HasColumnName("playerId")
+                    .HasColumnType("bigint(20) unsigned")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.Category)
+                    .HasColumnName("category")
+                    .HasColumnType("tinyint(2) unsigned")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.SubCategory)
+                    .HasColumnName("subCategory")
+                    .HasColumnType("tinyint(2) unsigned")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.Subject)
+                    .HasColumnName("subject")
+                    .HasColumnType("varchar(500)")
+                    .HasDefaultValue("");
+
+                entity.Property(e => e.Description)
+                    .HasColumnName("description")
+                    .HasColumnType("varchar(500)")
+                    .HasDefaultValue("");
+
+                entity.Property(e => e.WorldId)
+                    .HasColumnName("worldId")
+                    .HasColumnType("smallint(2)")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.PosX)
+                    .HasColumnName("posX")
+                    .HasColumnType("float")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.PosY)
+                    .HasColumnName("posY")
+                    .HasColumnType("float")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.PosZ)
+                    .HasColumnName("posZ")
+                    .HasColumnType("float")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.AssignedToId)
+                    .HasColumnName("assignedToId")
+                    .HasColumnType("bigint(20) unsigned")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.ClosedById)
+                    .HasColumnName("closedById")
+                    .HasColumnType("bigint(20) unsigned")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasColumnType("tinyint(1) unsigned")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.Comment)
+                    .HasColumnName("comment")
+                    .HasColumnType("text")
+                    .HasDefaultValue("");
+
+                entity.Property(e => e.CreateTime)
+                    .HasColumnName("createTime")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("current_timestamp()");
+
+                entity.Property(e => e.LastModifiedTime)
+                    .HasColumnName("lastModifiedTime")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("current_timestamp()")
+                    .ValueGeneratedOnAddOrUpdate();
+
+                entity.HasOne(t => t.Player)
+                    .WithMany(p => p.SupportTicket)
+                    .HasForeignKey(t => t.PlayerId)
+                    .HasConstraintName("FK__support_ticket_playerId__character_id");
+            });
+
+            modelBuilder.Entity<PlayerReportModel>(entity =>
+            {
+                entity.ToTable("player_report");
+
+                entity.HasKey(e => e.Id)
+                    .HasName("PRIMARY");
+
+                entity.HasIndex(e => e.ReportedById)
+                   .HasName("FK__player_report_reportedById__character_id");
+
+                entity.HasIndex(e => e.ReportedPlayerId)
+                    .HasName("IX__player_report_reportedPlayerId");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("bigint(20) unsigned")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.ReportedById)
+                    .HasColumnName("reportedById")
+                    .HasColumnType("bigint(20) unsigned")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.ReportedPlayerId)
+                    .HasColumnName("reportedPlayerId")
+                    .HasColumnType("bigint(20) unsigned")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.ReportedPlayerName)
+                    .HasColumnName("reportedPlayerName")
+                    .HasColumnType("varchar(50)")
+                    .HasDefaultValue("");
+
+                entity.Property(e => e.Reason)
+                    .HasColumnName("reason")
+                    .HasColumnType("tinyint(2) unsigned")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.Source)
+                    .HasColumnName("source")
+                    .HasColumnType("tinyint(2) unsigned")
+                    .HasDefaultValue(0);
+
+                entity.Property(e => e.CreateTime)
+                    .HasColumnName("createTime")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("current_timestamp()");
+
+                entity.HasOne(t => t.ReportedByPlayer)
+                    .WithMany(p => p.PlayerReportBy)
+                    .HasForeignKey(t => t.ReportedById)
+                    .HasConstraintName("FK__player_report_reportedById__character_id");
             });
         }
     }

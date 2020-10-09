@@ -201,5 +201,41 @@ namespace NexusForever.Database.Character
                 .Select(g => g.Max(s => s.Id))
                 .ToList()[0];
         }
+
+        public ulong GetNextSupportTicketId()
+        {
+            using var context = new CharacterContext(config);
+
+            // see EF bug 17988
+            // return context.SupportTicket.DefaultIfEmpty().Max(s => s.Id);
+            return context.SupportTicket
+                .GroupBy(i => 1)
+                .Select(g => g.Max(s => s.Id))
+                .ToList()[0];
+        }
+
+        public ulong GetNextBugReportId()
+        {
+            using var context = new CharacterContext(config);
+
+            // see EF bug 17988
+            // return context.BugReport.DefaultIfEmpty().Max(s => s.Id);
+            return context.BugReport
+                .GroupBy(i => 1)
+                .Select(g => g.Max(s => s.Id))
+                .ToList()[0];
+        }
+
+        public ulong GetNextPlayerReportId()
+        {
+            using var context = new CharacterContext(config);
+
+            // see EF bug 17988
+            // return context.PlayerReport.DefaultIfEmpty().Max(s => s.Id);
+            return context.PlayerReport
+                .GroupBy(i => 1)
+                .Select(g => g.Max(s => s.Id))
+                .ToList()[0];
+        }
     }
 }
